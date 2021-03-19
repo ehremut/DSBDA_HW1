@@ -26,15 +26,22 @@ public class MapReduceApplication {
         Configuration conf = new Configuration();
         // задаём выходной файл, разделенный запятыми - формат CSV в соответствии с заданием
         conf.set("mapreduce.output.textoutputformat.separator", ",");
-
+        
         Job job = Job.getInstance(conf, "browser count");
         job.setJarByClass(MapReduceApplication.class);
+        // set map class
         job.setMapperClass(HW1Mapper.class);
+        // set reducer class
         job.setReducerClass(HW1Reducer.class);
+        //set key of map for output
         job.setMapOutputKeyClass(Text.class);
+        //set value of map for output
         job.setMapOutputValueClass(IntWritable.class);
+        //set key of reducer for output
         job.setOutputKeyClass(Text.class);
+        //set vakue of reducer for output
         job.setOutputValueClass(MapWritable.class);
+        // add Sequence if file
         job.setOutputFormatClass(SequenceFileOutputFormat.class);
 
         Path outputDirectory = new Path(args[1]);
