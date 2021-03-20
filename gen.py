@@ -45,6 +45,11 @@ how = input('how many entries per day do you need? ')
 if int(how) == None:
     print("wrong number")
     
+chance = int(input('enter chance of error like number from 0 to 100: '))
+if chance > 100 or chance < 0:
+    print("wrong format")
+    exit(1)    
+    
 # get start date in datetime
 d1 = datetime.strptime(start, date_format)
 
@@ -64,7 +69,7 @@ for i in range(qty_files + 1):
     # cycle in write count in dat
     for j in range(int(how)):
         # with a probability of 90% create good write
-        if random.choice(warnings) != warnings[0]:
+        if random.randrange(0, 100, 1) > chance:
             war_res = str(random.choice(warnings))
             time_res = str(random_date(d1, d1_cpy))
             result_str = time_res + ',' + war_res + '\n'
