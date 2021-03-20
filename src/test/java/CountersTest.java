@@ -1,4 +1,3 @@
-import eu.bitwalker.useragentutils.UserAgent;
 import bdtc.lab1.CounterType;
 import bdtc.lab1.HW1Mapper;
 import org.apache.hadoop.io.IntWritable;
@@ -37,7 +36,6 @@ public class CountersTest {
 
     @Test
     public void testMapperCounterZero() throws IOException {
-        UserAgent userAgent = UserAgent.parseUserAgentString(testIP);
         mapDriver
                 .withInput(new LongWritable(), new Text(testIP))
                 .withOutput(new Text("2021-03-05 05"), new IntWritable(1))
@@ -48,7 +46,6 @@ public class CountersTest {
 
     @Test
     public void testMapperCounters() throws IOException {
-        UserAgent userAgent = UserAgent.parseUserAgentString(testIP);
         mapDriver
                 .withInput(new LongWritable(), new Text(testIP))
                 .withInput(new LongWritable(), new Text(testMalformedIP))

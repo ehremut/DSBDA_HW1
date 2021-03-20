@@ -40,7 +40,7 @@ public class MapReduceApplication {
         //set key of reducer for output
         job.setOutputKeyClass(Text.class);
         //set vakue of reducer for output
-        job.setOutputValueClass(MapWritable.class);
+        job.setOutputValueClass(Text.class);
         // add Sequence if file
         job.setOutputFormatClass(SequenceFileOutputFormat.class);
 

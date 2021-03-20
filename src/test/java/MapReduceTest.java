@@ -1,4 +1,3 @@
-import eu.bitwalker.useragentutils.UserAgent;
 import bdtc.lab1.HW1Mapper;
 import bdtc.lab1.HW1Reducer;
 import org.apache.hadoop.io.IntWritable;
@@ -14,21 +13,19 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class MapReduceTest {
 
     private MapDriver<LongWritable, Text, Text, IntWritable> mapDriver;
-    private ReduceDriver<Text, IntWritable, Text, MapWritable> reduceDriver;
-    private MapReduceDriver<LongWritable, Text, Text, IntWritable, Text, MapWritable> mapReduceDriver;
+    private ReduceDriver<Text, IntWritable, Text, Text> reduceDriver;
+    private MapReduceDriver<LongWritable, Text, Text, IntWritable, Text, Text> mapReduceDriver;
 
     private final String testLine = "2021-03-05 05:05:05,1";
     private final String testLine1 = "2021-03-05 05:05:05,1";
     private final String testLine2 = "2021-03-05 05:08:05,4";
     private final String testKey = "2021-03-05 05";
 
-    private UserAgent userAgent;
     @Before
     public void setUp() {
         HW1Mapper mapper = new HW1Mapper();
@@ -54,21 +51,16 @@ public class MapReduceTest {
         values.add(new IntWritable(1));
         values.add(new IntWritable(1));
         values.add(new IntWritable(2));
-        MapWritable map = new MapWritable();
-        map.put(new Text("alert"), new IntWritable(3));
-        map.put(new Text("crit"), new IntWritable(1));
-        map.put(new Text("notice"), new IntWritable(1));
+        Text result = new Text(" crit : 1;  alert : 3;  notice : 1; ");
         reduceDriver
                 .withInput(new Text(testKey), values)
-                .withOutput(new Text(testKey), map)
+                .withOutput(new Text(testKey), result)
                 .runTest();
     }
 
     @Test
     public void testMapReduce() throws IOException {
-        MapWritable result = new MapWritable();
-        result.put(new Text("alert"), new IntWritable(1));
-        result.put(new Text("warning"), new IntWritable(1));
+        Text result = new Text(" alert : 1;  warning : 1; ");
         mapReduceDriver
                 .withInput(new LongWritable(), new Text(testLine1))
                 .withInput(new LongWritable(), new Text(testLine2))
@@ -76,3 +68,5 @@ public class MapReduceTest {
                 .runTest();
     }
 }
+//(2021-03-05 05, crit : 1;  alert : 3;  notice : 1; )
+//(2021-03-05 05,  crit : 1;  alert : 3;  notice : 1; )
